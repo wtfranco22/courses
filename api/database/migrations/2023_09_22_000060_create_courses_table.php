@@ -17,10 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('title')->nullable(false);
             $table->date('start_date');
-            $table->integer('quotas');
+            $table->integer('coupons')->nullable(true);
             $table->string('image')->nullable(false);
             $table->longText('description')->nullable(false);
-            $table->foreignIdFor(\App\Models\User::class);
             $table->decimal('price',8,2)->nullable(false);
             $table->boolean('enabled')->default(false);
             $table->timestamps();

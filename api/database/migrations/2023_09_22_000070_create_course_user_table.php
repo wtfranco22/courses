@@ -19,9 +19,10 @@ return new class extends Migration
             $table->decimal('payment_amount', 10, 2)->nullable(false);
             $table->integer('completion_percentage')->default(0);
             $table->decimal('average_grade',5,2)->default(0.0);
-            $table->string('certificate');
+            $table->string('certificate')->default('');
             $table->foreignIdFor(\App\Models\Course::class);
             $table->foreignIdFor(\App\Models\User::class);
+            $table->unique(['user_id', 'course_id']);
             $table->timestamps();
         });
     }

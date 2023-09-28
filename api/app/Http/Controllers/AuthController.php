@@ -66,4 +66,32 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
         return response()->json(['message' => 'Sesion cerrada con exito!'], 200);
     }
+
+    /**
+     * Actualizar los datos del usuario
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = User::find(auth()->user()->id);
+        $validatedData = $request->validate([
+            'name' => 'string|max:50',
+            'last_name' => 'string|max:50',
+            'password' => 'nullable|string|min:6',
+            'current_password' => 'nullable|string|min:6',
+            'address' => 'string|max:100',
+            'enabled' => 'boolean:false',
+        ]);
+        if (isset($validatedData['password'])) {
+            $currentPassword = $request->input('current_password');
+            if (!Hash::check($currentPassword, $user->password)) {
+                return response()->json(['message' => 'La contraseña actual no es válida'], 400);
+            }
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        }
+        $user->update($validatedData);
+        return response()->json(['message' => 'Perfil actualizado con éxito', 'data' => $user], 200);
+    }
 }

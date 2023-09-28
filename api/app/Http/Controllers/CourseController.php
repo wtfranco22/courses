@@ -46,7 +46,7 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        $course = Course::with('modules','users')->find($id);
+        $course = Course::with('modules', 'users')->find($id);
         if (!$course) {
             return response()->json(['message' => 'Curso no encontrado'], 404);
         }
@@ -73,7 +73,7 @@ class CourseController extends Controller
             'coupons' => 'integer',
             'image' => 'string',
             'price' => 'double',
-            'enabled'=> 'boolean'
+            'enabled' => 'boolean'
         ]);
         $course->update($validatedData);
         return response()->json(['message' => 'Curso actualizado con éxito', 'data' => $course], 200);
@@ -93,5 +93,16 @@ class CourseController extends Controller
         }
         $course->delete();
         return response()->json(null, 204);
+    }
+
+    /**
+     * Exclusivamente muestra un arreglo de cursos en promocion
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sales()
+    {
+        $courses = Course::all()->where('enabled',true)->first();
+        return response()->json(['data' => $courses], 200);
     }
 }

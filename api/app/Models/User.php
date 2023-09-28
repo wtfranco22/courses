@@ -29,6 +29,7 @@ class User extends Authenticatable
         'email', //correo
         'password', //contraseña
         'role_id', //rol del usuario
+        'enabled', //habilitacion en el sistema de usuario
     ];
 
     /**

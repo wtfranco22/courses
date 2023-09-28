@@ -26,6 +26,7 @@ class Course extends Model
         'image', //url de la imagen del curso
         'description', //una breve descripcion del curso
         'price', //precio del curso en el momento de inscripcion
+        'enabled', //habilitacion para mostrarlo en promocion
     ];
 
     /**
